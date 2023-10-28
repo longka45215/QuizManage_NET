@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessObject.Models
 {
@@ -20,7 +21,6 @@ namespace BusinessObject.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CourseCategory> CourseCategories { get; set; } = null!;
         public virtual DbSet<ExpertAssign> ExpertAssigns { get; set; } = null!;
-        public virtual DbSet<FavoriteSubject> FavoriteSubjects { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<Quiz> Quizzes { get; set; } = null!;
         public virtual DbSet<QuizHistory> QuizHistories { get; set; } = null!;
@@ -31,11 +31,12 @@ namespace BusinessObject.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=GACHALIFE\\SQLEXPRESS;database=QuizPractiseDB_Demo;uid=sa;pwd=yolo19528;TrustServerCertificate=true;");
-            }
+            var builder = new ConfigurationBuilder()
+                                 .SetBasePath(Directory.GetCurrentDirectory())
+                                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            IConfigurationRoot configuration = builder.Build();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("database"));
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -128,32 +129,6 @@ namespace BusinessObject.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ExpertAssign_User");
-            });
-
-            modelBuilder.Entity<FavoriteSubject>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("FavoriteSubject");
-
-                entity.Property(e => e.SubjectId)
-                    .HasMaxLength(6)
-                    .HasColumnName("subjectID")
-                    .IsFixedLength();
-
-                entity.Property(e => e.UserId).HasColumnName("userID");
-
-                entity.HasOne(d => d.Subject)
-                    .WithMany()
-                    .HasForeignKey(d => d.SubjectId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FavoriteSubject_Subject");
-
-                entity.HasOne(d => d.User)
-                    .WithMany()
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FavoriteSubject_User");
             });
 
             modelBuilder.Entity<Question>(entity =>
