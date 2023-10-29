@@ -17,7 +17,7 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
-                    list = context.Users.ToList();
+                    list = context.Users.Include(u=>u.Role).ToList();
                 }
             }
             catch (Exception ex)
