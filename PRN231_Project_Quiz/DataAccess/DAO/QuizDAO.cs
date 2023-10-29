@@ -26,13 +26,14 @@ namespace DataAccess.DAO
             }
             return list;
         }
-        public static Quiz? GetQuiz(int id)
+        public static Quiz? GetQuiz(int id,string subjectId,int userid)
         {
             try
             {
                 using (var context = new MyDbContext())
                 {
-                    return context.Quizzes.FirstOrDefault(a => a.QuizId==id);
+                    return context.Quizzes
+                        .FirstOrDefault(a => a.QuizId==id&&a.SubjectId.Equals(subjectId)&&a.UserId==userid);
                 }
             }
             catch (Exception ex)
@@ -76,7 +77,8 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
-                    var p1 = context.Quizzes.SingleOrDefault(x => x.QuizId == quiz.QuizId);
+                    var p1 = context.Quizzes
+                        .SingleOrDefault(a => a.QuizId == quiz.QuizId && a.SubjectId.Equals(quiz.SubjectId) && a.UserId == quiz.UserId);
                     if (p1 == null)
                     {
                         throw new Exception("not found");

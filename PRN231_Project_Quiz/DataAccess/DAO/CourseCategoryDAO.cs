@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.DAO
 {
-    public class CourseCategoryCategoryDAO
+    public class CourseCategoryDAO
     {
         public static List<CourseCategory> GetCourseCategory()
         {

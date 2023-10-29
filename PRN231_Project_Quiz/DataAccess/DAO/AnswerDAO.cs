@@ -70,7 +70,7 @@ namespace DataAccess.DAO
                 throw new Exception(e.Message);
             }
         }
-        public static void DeleteAuthor(Answer answer)
+        public static void DeleteAnswer(Answer answer)
         {
             try
             {
