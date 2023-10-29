@@ -6,13 +6,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace BusinessObject.Models
 {
-    public partial class QuizPractiseDB_DemoContext : DbContext
+    public partial class MyDbContext : DbContext
     {
-        public QuizPractiseDB_DemoContext()
+        public MyDbContext()
         {
         }
 
-        public QuizPractiseDB_DemoContext(DbContextOptions<QuizPractiseDB_DemoContext> options)
+        public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
         }
