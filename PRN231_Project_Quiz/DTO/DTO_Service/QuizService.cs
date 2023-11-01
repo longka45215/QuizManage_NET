@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<QuizDTO>>(quizRepository.GetQuiz());
         }
 
-        public Quiz? GetQuiz(int id, string subjectId, int userid)
+        public QuizDTO? GetQuiz(int id, string subjectId, int userid)
         {
-            return mapper.Map<Quiz?>(quizRepository.GetQuiz(id,subjectId,userid));
+            return mapper.Map<QuizDTO?>(quizRepository.GetQuiz(id,subjectId,userid));
         }
 
         public void SaveQuiz(QuizDTO quiz)

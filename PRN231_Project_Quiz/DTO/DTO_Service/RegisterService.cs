@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<RegisterDTO>>(registerRepository.GetRegister());
         }
 
-        public Register? GetRegister(int id,string cour)
+        public RegisterDTO? GetRegister(int id,string cour)
         {
-            return mapper.Map<Register?>(registerRepository.GetRegister(id,cour));
+            return mapper.Map<RegisterDTO?>(registerRepository.GetRegister(id,cour));
         }
 
         public void SaveRegister(RegisterDTO register)

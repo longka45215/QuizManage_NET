@@ -47,8 +47,9 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
-                    context.QuizHistories.Add(expass);
-                    context.SaveChanges();
+                    string sql =
+                        "INSERT INTO Register  ([quizID],[questionID],[userAnswer],[isCorrect]) VALUES ({0}, {1},{2},{3})";
+                    context.Database.ExecuteSqlRaw(sql, expass.QuizId, expass.QuestionId,expass.UserAnswer, expass.IsCorrect);
                 }
             }
             catch (Exception e)

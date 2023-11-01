@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<QuestionDTO>>(questionRepository.GetQuestion());
         }
 
-        public Question? GetQuestion(int id)
+        public QuestionDTO? GetQuestion(int id)
         {
-            return mapper.Map<Question?>(questionRepository.GetQuestion(id));
+            return mapper.Map<QuestionDTO?>(questionRepository.GetQuestion(id));
         }
 
         public void SaveQuestion(QuestionDTO ques)

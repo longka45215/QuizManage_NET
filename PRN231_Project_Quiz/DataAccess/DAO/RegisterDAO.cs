@@ -46,8 +46,10 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
-                    context.Registers.Add(res);
-                    context.SaveChanges();
+                    string sql = 
+                        "INSERT INTO Register ([userID],[courseID]) VALUES ({0}, {1})";
+                    context.Database.ExecuteSqlRaw(sql, res.UserId, res.CourseId );
+
                 }
             }
             catch (Exception e)
@@ -82,8 +84,8 @@ namespace DataAccess.DAO
                     {
                         throw new Exception("not found");
                     }
-                    context.Registers.Remove(p1);
-                    context.SaveChanges();
+                    string sql = "DELETE FROM Register WHERE userID = {0} and courseID like {1}";
+                    context.Database.ExecuteSqlRaw(sql, res.UserId, res.CourseId);
                 }
             }
             catch (Exception e)

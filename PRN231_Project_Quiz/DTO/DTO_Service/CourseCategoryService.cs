@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<CourseCategoryDTO>>(courseCategoryRepository.GetCourseCategory());
         }
 
-        public CourseCategory? GetCourseCategory(int id)
+        public CourseCategoryDTO? GetCourseCategory(int id)
         {
-            return mapper.Map<CourseCategory?>(courseCategoryRepository.GetCourseCategory(id));
+            return mapper.Map<CourseCategoryDTO?>(courseCategoryRepository.GetCourseCategory(id));
         }
 
         public void SaveCourseCategory(CourseCategoryDTO coursecate)

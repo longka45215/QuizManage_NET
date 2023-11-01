@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<SubjectDTO>>(subjectRepository.GetSubjects());
         }
 
-        public Subject? GetSubject(string id)
+        public SubjectDTO? GetSubject(string id)
         {
-            return mapper.Map<Subject?>(subjectRepository.GetSubject(id));
+            return mapper.Map<SubjectDTO?>(subjectRepository.GetSubject(id));
         }
 
         public void SaveSubject(SubjectDTO subject)

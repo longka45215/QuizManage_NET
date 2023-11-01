@@ -30,9 +30,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<AnswerDTO>>(answerRepository.GetAnswer()) ;
         }
 
-        public Answer? GetAnswer(int id)
+        public AnswerDTO? GetAnswer(int id)
         {
-            return mapper.Map<Answer?>(answerRepository.GetAnswer(id));
+            return mapper.Map<AnswerDTO?>(answerRepository.GetAnswer(id));
         }
 
         public void SaveAnswer(AnswerDTO answer)

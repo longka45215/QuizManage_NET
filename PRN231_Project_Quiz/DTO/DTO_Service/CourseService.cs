@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<CourseDTO>>(courseRepository.GetCourse());
         }
 
-        public Course? GetCourse(string id)
+        public CourseDTO? GetCourse(string id)
         {
-            return mapper.Map<Course?>(courseRepository.GetCourse(id));
+            return mapper.Map<CourseDTO?>(courseRepository.GetCourse(id));
         }
 
         public void SaveCourse(CourseDTO course)
