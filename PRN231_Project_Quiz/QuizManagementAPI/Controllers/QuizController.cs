@@ -19,27 +19,51 @@ namespace QuizManagementAPI.Controllers
         [EnableQuery]
         public ActionResult<IQueryable<QuizDTO>> Get()
         {
-            return Ok(service.GetQuiz().AsQueryable());
+            try
+            {
+                return Ok(service.GetQuiz().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Post([FromBody] QuizDTO quiz)
         {
-            service.SaveQuiz(quiz);
-            return Ok();
+            try
+            {
+                service.SaveQuiz(quiz);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Put([FromRoute] int key, [FromBody] QuizDTO quiz)
         {
-            var tmp = service.GetQuiz(key,quiz.SubjectId,quiz.UserId);
-            if (tmp == null) { return NotFound(); }
-            Type type = typeof(QuizDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                object value = property.GetValue(quiz);
-                property.SetValue(tmp, value);
+                var tmp = service.GetQuiz(key, quiz.SubjectId, quiz.UserId);
+                if (tmp == null) { return NotFound(); }
+                Type type = typeof(QuizDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object value = property.GetValue(quiz);
+                    property.SetValue(tmp, value);
+                }
+                service.UpdateQuiz(tmp);
+                return Ok();
             }
-            service.UpdateQuiz(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
-        
+
     }
 }

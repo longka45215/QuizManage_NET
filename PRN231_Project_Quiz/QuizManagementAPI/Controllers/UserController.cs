@@ -13,60 +13,84 @@ namespace QuizManagementAPI.Controllers
 
     public class UserController : ODataController
     {
-        private readonly UserService _userService ;
+        private readonly UserService _userService;
         public UserController(UserService userService)
         {
             _userService = userService;
         }
 
         // GET: api/<UsersController>
-        [EnableQuery(PageSize =10)]
+        [EnableQuery(PageSize = 10)]
         public ActionResult<IQueryable<UserDTO>> Get()
         {
-            return Ok(_userService.GetUser().AsQueryable());
+            try
+            {
+                return Ok(_userService.GetUser().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // POST api/<UsersController>
 
         public ActionResult Post([FromBody] UserDTO user)
         {
-            Type type = typeof(UserDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            UserDTO tmp = new UserDTO();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                if (property.Name != "UserId")
+                Type type = typeof(UserDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                UserDTO tmp = new UserDTO();
+                foreach (PropertyInfo property in properties)
                 {
-                    object value = property.GetValue(user);
-                    property.SetValue(tmp, value);
+                    if (property.Name != "UserId")
+                    {
+                        object value = property.GetValue(user);
+                        property.SetValue(tmp, value);
+                    }
                 }
+                _userService.SaveUser(tmp);
+                return Ok();
             }
-            _userService.SaveUser(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // PUT api/<UsersController>/5
 
         public ActionResult Put([FromRoute] int key, [FromBody] UserDTO user)
         {
-            var tmp = _userService.GetUser().FirstOrDefault(x => x.UserId == key); ;
-            if (tmp == null)
+            try
             {
-                return NotFound();
-            }
-            Type type = typeof(UserDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
-            {
-                if (property.Name != "UserId")
+                var tmp = _userService.GetUser().FirstOrDefault(x => x.UserId == key); ;
+                if (tmp == null)
                 {
-                    object value = property.GetValue(user);
-                    property.SetValue(tmp, value);
+                    return NotFound();
                 }
+                Type type = typeof(UserDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    if (property.Name != "UserId")
+                    {
+                        object value = property.GetValue(user);
+                        property.SetValue(tmp, value);
+                    }
+                }
+                _userService.UpdateUser(tmp);
+                return Ok();
             }
-            _userService.UpdateUser(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
-      
+
     }
 }

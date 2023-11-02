@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace QuizManagementAPI.Controllers
 {
-  
+
     public class CourseCategoryController : ODataController
     {
         private readonly CourseCategoryService service;
@@ -19,40 +19,72 @@ namespace QuizManagementAPI.Controllers
         [EnableQuery(PageSize = 10)]
         public ActionResult<IQueryable<CourseCategoryDTO>> Get()
         {
-            return Ok(service.GetCourseCategory().AsQueryable());
+            try
+            {
+                return Ok(service.GetCourseCategory().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         public ActionResult Post([FromBody] CourseCategoryDTO courseDTO)
         {
-            var tmp = service.GetCourseCategory(courseDTO.CategoryId);
-            if (tmp != null)
+            try
             {
-                return BadRequest();
+                var tmp = service.GetCourseCategory(courseDTO.CategoryId);
+                if (tmp != null)
+                {
+                    return BadRequest();
+                }
+                service.SaveCourseCategory(courseDTO);
+                return Ok();
             }
-            service.SaveCourseCategory(courseDTO);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Put([FromRoute] int key, [FromBody] CourseCategoryDTO course)
         {
-            var tmp = service.GetCourseCategory(key);
-            if (tmp == null) { return NotFound(); }
-            Type type = typeof(CourseCategoryDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                object value = property.GetValue(course);
-                property.SetValue(tmp, value);
+                var tmp = service.GetCourseCategory(key);
+                if (tmp == null) { return NotFound(); }
+                Type type = typeof(CourseCategoryDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object value = property.GetValue(course);
+                    property.SetValue(tmp, value);
 
+                }
+                service.UpdateCourseCategory(tmp);
+                return Ok();
             }
-            service.UpdateCourseCategory(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Delete([FromRoute] int key)
         {
-            var tmp = service.GetCourseCategory(key);
-            if (tmp == null) { return NotFound(); }
-            service.DeleteCourseCategory(tmp);
-            return Ok();
+            try
+            {
+                var tmp = service.GetCourseCategory(key);
+                if (tmp == null) { return NotFound(); }
+                service.DeleteCourseCategory(tmp);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

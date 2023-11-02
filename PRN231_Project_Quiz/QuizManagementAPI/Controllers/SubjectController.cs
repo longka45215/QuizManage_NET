@@ -20,39 +20,71 @@ namespace QuizManagementAPI.Controllers
         [EnableQuery(PageSize = 10)]
         public ActionResult<IQueryable<SubjectDTO>> Get()
         {
-            return Ok(subjectService.GetSubjects().AsQueryable());
+            try
+            {
+                return Ok(subjectService.GetSubjects().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Post([FromBody] SubjectDTO subject)
         {
-            var tmp = subjectService.GetSubject(subject.SubjectId);
-            if (tmp != null)
+            try
             {
-                return BadRequest();
+                var tmp = subjectService.GetSubject(subject.SubjectId);
+                if (tmp != null)
+                {
+                    return BadRequest();
+                }
+                subjectService.SaveSubject(subject);
+                return Ok();
             }
-            subjectService.SaveSubject(subject);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Put([FromRoute] string key, [FromBody] SubjectDTO subject)
         {
-            var tmp = subjectService.GetSubject(key);
-            if (tmp == null) { return NotFound(); }
-            Type type = typeof(SubjectDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                object value = property.GetValue(subject);
-                property.SetValue(tmp, value);
+                var tmp = subjectService.GetSubject(key);
+                if (tmp == null) { return NotFound(); }
+                Type type = typeof(SubjectDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object value = property.GetValue(subject);
+                    property.SetValue(tmp, value);
 
+                }
+                subjectService.UpdateSubject(tmp);
+                return Ok();
             }
-            subjectService.UpdateSubject(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Delete([FromRoute] string key)
         {
-            var tmp = subjectService.GetSubject(key);
-            if (tmp == null) { return NotFound(); }
-            subjectService.DeleteSubject(tmp);
-            return Ok();
+            try
+            {
+                var tmp = subjectService.GetSubject(key);
+                if (tmp == null) { return NotFound(); }
+                subjectService.DeleteSubject(tmp);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

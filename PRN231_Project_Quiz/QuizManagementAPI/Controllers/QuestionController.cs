@@ -21,34 +21,66 @@ namespace QuizManagementAPI.Controllers
         [EnableQuery]
         public ActionResult<IQueryable<QuestionDTO>> Get()
         {
-            return Ok(questionService.GetQuestion().AsQueryable());
+            try
+            {
+                return Ok(questionService.GetQuestion().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         public IActionResult Post([FromBody] QuestionDTO question)
         {
-            questionService.SaveQuestion(question);
-            return Ok();
+            try
+            {
+                questionService.SaveQuestion(question);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Put([FromRoute] int key, [FromBody] QuestionDTO question)
         {
-            var tmp = questionService.GetQuestion(key);
-            if (tmp == null) { return NotFound(); }
-            Type type = typeof(QuestionDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                object value = property.GetValue(question);
-                property.SetValue(tmp, value);
+                var tmp = questionService.GetQuestion(key);
+                if (tmp == null) { return NotFound(); }
+                Type type = typeof(QuestionDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object value = property.GetValue(question);
+                    property.SetValue(tmp, value);
+                }
+                questionService.UpdateQuestion(tmp);
+                return Ok();
             }
-            questionService.UpdateQuestion(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Delete([FromRoute] int key)
         {
-            var tmp = questionService.GetQuestion(key);
-            if (tmp == null) { return NotFound(); }
-            questionService.DeleteQuestion(tmp);
-            return Ok();
+            try
+            {
+                var tmp = questionService.GetQuestion(key);
+                if (tmp == null) { return NotFound(); }
+                questionService.DeleteQuestion(tmp);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

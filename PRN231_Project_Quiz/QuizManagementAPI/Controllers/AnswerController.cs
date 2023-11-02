@@ -20,34 +20,66 @@ namespace QuizManagementAPI.Controllers
         [EnableQuery]
         public ActionResult<IQueryable<AnswerDTO>> Get()
         {
-            return Ok(service.GetAnswer().AsQueryable());
+            try
+            {
+                return Ok(service.GetAnswer().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         public IActionResult Post([FromBody] AnswerDTO answer)
         {
-            service.SaveAnswer(answer);
-            return Ok();
+            try
+            {
+                service.SaveAnswer(answer);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Put([FromRoute] int key, [FromBody] AnswerDTO answer)
         {
-            var tmp = service.GetAnswer(key);
-            if (tmp == null) { return NotFound(); }
-            Type type = typeof(AnswerDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                object value = property.GetValue(answer);
-                property.SetValue(tmp, value);
+                var tmp = service.GetAnswer(key);
+                if (tmp == null) { return NotFound(); }
+                Type type = typeof(AnswerDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object value = property.GetValue(answer);
+                    property.SetValue(tmp, value);
+                }
+                service.UpdateAnswer(tmp);
+                return Ok();
             }
-            service.UpdateAnswer(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Delete([FromRoute] int key)
         {
-            var tmp = service.GetAnswer(key);
-            if (tmp == null) { return NotFound(); }
-            service.DeleteAnswer(tmp);
-            return Ok();
+            try
+            {
+                var tmp = service.GetAnswer(key);
+                if (tmp == null) { return NotFound(); }
+                service.DeleteAnswer(tmp);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

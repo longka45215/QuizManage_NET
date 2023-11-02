@@ -29,7 +29,7 @@ namespace DTO.DTO_Service
             return mapper.Map<List<ExpertAssignDTO>>(expertAssignRepository.GetExpertAssign());
         }
 
-        public ExpertAssign? GetExpertAssign(int id,string subid)
+        public ExpertAssignDTO? GetExpertAssign(int id,string subid)
         {
             return mapper.Map<ExpertAssign?>(expertAssignRepository.GetExpertAssign(id,subid));
         }

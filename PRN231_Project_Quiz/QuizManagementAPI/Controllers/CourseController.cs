@@ -19,40 +19,72 @@ namespace QuizManagementAPI.Controllers
         [EnableQuery(PageSize = 10)]
         public ActionResult<IQueryable<CourseDTO>> Get()
         {
-            return Ok(courseService.GetCourse().AsQueryable());
+            try
+            {
+                return Ok(courseService.GetCourse().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
-        public ActionResult Post([FromBody]CourseDTO courseDTO)
+        public ActionResult Post([FromBody] CourseDTO courseDTO)
         {
-            var tmp = courseService.GetCourse(courseDTO.CourseId);
-            if (tmp != null)
+            try
             {
-                return BadRequest();
+                var tmp = courseService.GetCourse(courseDTO.CourseId);
+                if (tmp != null)
+                {
+                    return BadRequest();
+                }
+                courseService.SaveCourse(courseDTO);
+                return Ok();
             }
-            courseService.SaveCourse(courseDTO);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Put([FromRoute] string key, [FromBody] CourseDTO course)
         {
-            var tmp = courseService.GetCourse(key);
-            if (tmp == null) { return NotFound(); }
-            Type type = typeof(CourseDTO);
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
+            try
             {
-                object value = property.GetValue(course);
-                property.SetValue(tmp, value);
+                var tmp = courseService.GetCourse(key);
+                if (tmp == null) { return NotFound(); }
+                Type type = typeof(CourseDTO);
+                PropertyInfo[] properties = type.GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    object value = property.GetValue(course);
+                    property.SetValue(tmp, value);
 
+                }
+                courseService.UpdateCourse(tmp);
+                return Ok();
             }
-            courseService.UpdateCourse(tmp);
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         public IActionResult Delete([FromRoute] string key)
         {
-            var tmp = courseService.GetCourse(key);
-            if (tmp == null) { return NotFound(); }
-            courseService.DeleteCourse(tmp);
-            return Ok();
+            try
+            {
+                var tmp = courseService.GetCourse(key);
+                if (tmp == null) { return NotFound(); }
+                courseService.DeleteCourse(tmp);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

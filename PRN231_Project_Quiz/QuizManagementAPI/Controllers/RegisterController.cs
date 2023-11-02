@@ -23,12 +23,19 @@ namespace QuizManagementAPI.Controllers
         [HttpGet("{UserId}/{CourseId}")]
         public ActionResult<RegisterDTO> Get(int UserId,string CourseId)
         {
-            var register = _service.GetRegister(UserId, CourseId);
-            if(register == null)
+            try
             {
-                return NotFound();
+                var register = _service.GetRegister(UserId, CourseId);
+                if (register == null)
+                {
+                    return NotFound();
+                }
+                return register;
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-            return register;
+            
         }
 
         // POST api/<RegisterController>
