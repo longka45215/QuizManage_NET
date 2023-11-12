@@ -55,8 +55,11 @@ namespace QuizManagementAPI.Controllers
                 PropertyInfo[] properties = type.GetProperties();
                 foreach (PropertyInfo property in properties)
                 {
-                    object value = property.GetValue(question);
-                    property.SetValue(tmp, value);
+                    if (property.Name != "QuestionId"&& property.Name != "Answers")
+                    {
+                        object value = property.GetValue(question);
+                        property.SetValue(tmp, value);
+                    }
                 }
                 questionService.UpdateQuestion(tmp);
                 return Ok();

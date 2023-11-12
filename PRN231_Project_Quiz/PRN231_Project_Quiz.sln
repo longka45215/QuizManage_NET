@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObject", "BusinessO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{0C7CE8AB-B266-40D7-9EDD-58877D83BBCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{DD36C3A5-0327-4E55-A7EB-24110B9C7AE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{DD36C3A5-0327-4E55-A7EB-24110B9C7AE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{FEEC631F-7F62-411A-BEB7-5C66ECEB3009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{FEEC631F-7F62-411A-BEB7-5C66ECEB3009}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizManagementAPI", "QuizManagementAPI\QuizManagementAPI.csproj", "{3324F321-454A-42F0-A950-BA9B56F7D0B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizManagementAPI", "QuizManagementAPI\QuizManagementAPI.csproj", "{3324F321-454A-42F0-A950-BA9B56F7D0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizManage", "QuizManage\QuizManage.csproj", "{F0AB5B07-59F3-48A9-96B4-80EDACC6E282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizManage", "QuizManage\QuizManage.csproj", "{3568FCE3-14C8-465C-BD74-6F966D48FBFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{3324F321-454A-42F0-A950-BA9B56F7D0B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3324F321-454A-42F0-A950-BA9B56F7D0B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3324F321-454A-42F0-A950-BA9B56F7D0B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0AB5B07-59F3-48A9-96B4-80EDACC6E282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0AB5B07-59F3-48A9-96B4-80EDACC6E282}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0AB5B07-59F3-48A9-96B4-80EDACC6E282}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0AB5B07-59F3-48A9-96B4-80EDACC6E282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3568FCE3-14C8-465C-BD74-6F966D48FBFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3568FCE3-14C8-465C-BD74-6F966D48FBFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3568FCE3-14C8-465C-BD74-6F966D48FBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3568FCE3-14C8-465C-BD74-6F966D48FBFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

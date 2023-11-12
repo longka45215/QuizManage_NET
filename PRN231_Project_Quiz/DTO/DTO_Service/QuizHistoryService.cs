@@ -29,9 +29,9 @@ namespace DTO.DTO_Service
             return mapper.Map<List<QuizHistoryDTO>>(quizHistoryRepository.GetQuizHistory());
         }
 
-        public QuizHistory? GetQuizHistory(int id,int quesid)
+        public QuizHistoryDTO? GetQuizHistory(int id,int quesid)
         {
-            return mapper.Map<QuizHistory?>(quizHistoryRepository.GetQuizHistory(id,quesid));
+            return mapper.Map<QuizHistoryDTO?>(quizHistoryRepository.GetQuizHistory(id,quesid));
         }
 
         public void SaveQuizHistory(QuizHistoryDTO quizHis)

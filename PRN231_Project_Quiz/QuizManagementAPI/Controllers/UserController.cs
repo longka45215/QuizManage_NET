@@ -67,7 +67,7 @@ namespace QuizManagementAPI.Controllers
         {
             try
             {
-                var tmp = _userService.GetUser().FirstOrDefault(x => x.UserId == key); ;
+                var tmp = _userService.GetUser().FirstOrDefault(x => x.UserId == key); 
                 if (tmp == null)
                 {
                     return NotFound();

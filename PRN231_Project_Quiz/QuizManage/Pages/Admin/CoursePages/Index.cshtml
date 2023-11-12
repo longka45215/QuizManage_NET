@@ -1,0 +1,299 @@
+﻿@page
+@model QuizManage.Pages.Admin.CoursePages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .form-container {
+        display: none;
+        width: 200%;
+        max-width: 600px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #f2f2f2;
+        z-index: 9999;
+    }
+
+    th, td {
+        border: 1px solid #4255ff;
+        border-radius: 8px;
+    }
+
+    table {
+        margin-left: -10px;
+    }
+</style>
+<h1>Index</h1>
+<button id="addCourseButton" class="btn btn-primary" style="margin-bottom:20px">Add Course</button>
+<div id="courseTableContainer" class="container-fluid"></div>
+
+
+<div id="formContainer" class="form-container">
+    <button id="closeButton" class="btn btn-danger">Close</button>
+    <h2>Add Course</h2>
+    <form id="courseForm">
+        <div class="form-group">
+            <label for="courseId">Course ID:</label>
+            <input type="text" class="form-control" id="courseId">
+        </div>
+        <div class="form-group">
+            <label for="courseName">Course Name:</label>
+            <input type="text" class="form-control" id="courseName">
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" id="category">
+                @foreach (var item in Model.CourseCategories)
+                {
+                    <option value="@item.CategoryId">@item.CategoryName</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" class="form-control" id="description">
+        </div>
+        <div class="form-group">
+            <label for="thumbnail">Thumbnail:</label>
+            <input type="text" class="form-control" id="thumbnail">
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+       
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#addCourseButton").click(function () {
+        $("#addCourseButton").hide();
+        $("#formContainer").show();
+    });
+
+    $("#closeButton").click(function () {
+        $("#addCourseButton").show();
+        $("#formContainer").hide();
+    });
+    $(document).ready(function () {
+        ShowAllCourse();
+       
+
+        $("#courseForm").submit(function (event) {
+            event.preventDefault(); // Ngăn chặn submit form mặc định
+            console.log(111111);
+            // Lấy giá trị từ các trường input
+            var courseId = $("#courseId").val();
+            var courseName = $("#courseName").val();
+            var category = $("#category").val();
+            var description = $("#description").val();
+            var thumbnail = $("#thumbnail").val();
+
+            // Tạo object JSON từ dữ liệu form
+            var courseData = {
+                "courseId": courseId,
+                "courseName": courseName,
+                "description": description,
+                "categoryId": category,
+                "thumbnail": thumbnail,
+                "category": {
+                    "categoryId": 0,
+                    "categoryName": "string"
+                }
+            };
+
+            // Gửi dữ liệu JSON đến API bằng $ajax
+            $.ajax({
+                url: "http://localhost:5298/odata/Course",
+                type: "POST",
+                data: JSON.stringify(courseData),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    // Xử lý thành công
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi
+                    console.log(xhr.responseText);
+                }
+            }); 
+            $("#addCourseButton").show();
+            $("#formContainer").hide();
+            ShowAllCourse();
+
+        });
+    });
+    function ShowAllCourse() {
+        console.log("1111");
+        // Lấy dữ liệu từ API
+        $.ajax({
+            url: "http://localhost:5298/odata/CourseCategory",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                // Xử lý dữ liệu thành công
+                var categories = response.value;
+                console.log(categories);
+                // Lấy dữ liệu khóa học từ API
+                $.ajax({
+                    url: "http://localhost:5298/odata/Course" + "?$expand=Category",
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        // Xử lý dữ liệu thành công
+                        var courses = response.value;
+                        console.log(courses);
+                        // Tạo bảng để hiển thị dữ liệu
+                        var table = $("<table>").addClass("table");
+                        var headers = $("<tr>").append(
+                            $("<th>").text("Course ID"),
+                            $("<th>").text("Course Name"),
+                            $("<th>").text("Description"),
+                            $("<th>").text("Category"),
+                            $("<th>").text("Thumbnail"),
+                            $("<th>").attr("colspan", 3).text("Action")
+                        );
+                        table.append(headers);
+
+                        for (var i = 0; i < courses.length; i++) {
+                            var course = courses[i];
+                            var categoryId = course.Category.CategoryId;
+                            var categoryName = course.Category.CategoryName;
+
+                            var categorySelect = $("<select>").addClass(course.CourseId);
+                            for (var j = 0; j < categories.length; j++) {
+                                var category = categories[j];
+                                categorySelect.append(
+                                    $("<option>")
+                                        .val(category.CategoryId)
+                                        .text(category.CategoryName)
+                                );
+                            }
+                            categorySelect.val(categoryId);
+
+                            var row = $("<tr>").append(
+                                $("<td>").append(
+                                    $("<input>")
+                                        .attr("type", "text")
+                                        .addClass("" + course.CourseId)
+                                        .val(course.CourseId)
+                                        .prop("disabled", true).css("width", "60px")
+                                ),
+                                $("<td>").append(
+                                    $("<input>")
+                                        .attr("type", "text")
+                                        .addClass("" + course.CourseId)
+                                        .val(course.CourseName)
+                                ),
+                                $("<td>").append(
+                                    $("<input>")
+                                        .attr("type", "text")
+                                        .addClass("" + course.CourseId)
+                                        .val(course.Description)
+                                ),
+                                $("<td>").append(categorySelect),
+                                $("<td>").append(
+                                    $("<input>")
+                                        .attr("type", "text")
+                                        .addClass("" + course.CourseId)
+                                        .val(course.Thumbnail)
+                                ),
+                                $("<td>").append(
+                                    $("<button>")
+                                        .text("Update")
+                                        .addClass("btn btn-primary")
+                                        .click(handleUpdateButtonClick(course.CourseId))
+                                ),
+                                $("<td>").append(
+                                    $("<button>")
+                                        .text("Delete")
+                                        .addClass("btn btn-danger")
+                                        .click(handleDeleteButtonClick(course.CourseId))
+                                ),
+                                $("<td>").append(
+                                    $("<button>")
+                                        .text("Detail")
+                                        .addClass("btn btn-info")
+                                        .click(function () {
+                                            window.location.href = "/Admin/SubjectPages/Index?id=" + course.CourseId; // Thay thế URL bằng liên kết mà bạn muốn chuyển hướng đến
+                                        })
+                                )
+                            );
+                            table.append(row);
+                        }
+
+                        $("#courseTableContainer").empty().append(table);
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi
+                        console.log(xhr.responseText);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    function handleUpdateButtonClick(courseId) {
+        return function () {
+            var inputs = $("input." + courseId); // Tìm tất cả các input có class giống với tham số courseId
+            var select = $("select." + courseId);
+            var courseData = {
+                "courseId": inputs.eq(0).val(),
+                "courseName": inputs.eq(1).val(),
+                "description": inputs.eq(2).val(),
+                "categoryId": parseInt(select.val()),
+                "thumbnail": inputs.eq(3).val(),
+                "category": {
+                    "categoryId": 0,
+                    "categoryName": "string"
+                }
+            }
+
+
+            // Gửi dữ liệu lên máy chủ thông qua Ajax
+            $.ajax({
+                url: "http://localhost:5298/odata/Course/" + courseId,
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(courseData),
+                success: function (response) {
+                    // Xử lý phản hồi từ máy chủ
+                    alert("Data updated successfully");
+                    ShowAllCourse();
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi nếu có
+
+                }
+            });
+        };
+    }
+    function handleDeleteButtonClick(courseId) {
+        return function () {           
+            // Gửi dữ liệu lên máy chủ thông qua Ajax
+            $.ajax({
+                url: "http://localhost:5298/odata/Course/" + courseId,
+                type: "Delete",
+                success: function (response) {
+                    // Xử lý phản hồi từ máy chủ
+                    alert("Data delete successfully");
+                    ShowAllCourse();
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi nếu có
+
+                }
+            });
+        };
+    }
+
+</script>

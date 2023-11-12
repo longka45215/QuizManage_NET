@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObject.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace DTO.DTOs
         public string? Description { get; set; }
         public int CategoryId { get; set; }
         public string? Thumbnail { get; set; }
+        public virtual CourseCategoryDTO Category { get; set; } = null!;
     }
 }

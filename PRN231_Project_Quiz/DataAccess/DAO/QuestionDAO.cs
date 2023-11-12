@@ -17,7 +17,7 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
-                    list = context.Questions.ToList();
+                    list = context.Questions.Include(x=>x.Answers).ToList();
                 }
             }
             catch (Exception ex)

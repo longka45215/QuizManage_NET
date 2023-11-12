@@ -17,7 +17,7 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
-                    list = context.Courses.ToList();
+                    list = context.Courses.Include(x=>x.Category).ToList();
                 }
             }
             catch (Exception ex)

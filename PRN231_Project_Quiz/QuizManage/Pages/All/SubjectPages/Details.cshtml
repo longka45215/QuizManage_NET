@@ -1,0 +1,59 @@
+﻿@page
+@model QuizManage.Pages.All.SubjectPages.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    table,th, tr, td {
+        border: 1px solid black;
+    }
+</style>
+<div class="container-fluid">
+    <table >
+        <thead>
+            <tr>
+                <th>
+                    Question
+                </th>
+                <th>
+                    Answer
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Question)
+            {
+                <tr>
+                    <td>
+                        <div>
+                            @{
+                                var content = item.Content.Split("/");
+                            }
+                            @foreach (var str in content)
+                            {
+                                <p>@str</p><br>
+                            }
+                        </div>
+                        <div>
+                            @foreach(var answer in item.Answers)
+                            {
+                                <p>@answer.Content</p>
+                            }
+                        </div>
+                    </td>
+                    @foreach (var answer in item.Answers)
+                    {
+                        @if ((bool)answer.IsAnswer)
+                        {
+                            <td>@answer.Content</td>
+                        }
+                        
+                    }
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

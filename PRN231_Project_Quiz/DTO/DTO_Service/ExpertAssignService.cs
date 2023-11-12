@@ -31,7 +31,7 @@ namespace DTO.DTO_Service
 
         public ExpertAssignDTO? GetExpertAssign(int id,string subid)
         {
-            return mapper.Map<ExpertAssign?>(expertAssignRepository.GetExpertAssign(id,subid));
+            return mapper.Map<ExpertAssignDTO?>(expertAssignRepository.GetExpertAssign(id,subid));
         }
 
         public void SaveExpertAssign(ExpertAssignDTO expass)

@@ -18,6 +18,7 @@ modelbuilder.EntitySet<CourseDTO>("Course");
 modelbuilder.EntitySet<QuestionDTO>("Question");
 modelbuilder.EntitySet<QuizDTO>("Quiz");
 modelbuilder.EntitySet<SubjectDTO>("Subject");
+modelbuilder.EntitySet<RoleDTO>("Role");
 builder.Services.AddControllers().AddOData(option => option.Select()
         .Filter().Count().OrderBy().Expand().SetMaxTop(100)
         .AddRouteComponents("odata", modelbuilder.GetEdmModel()));
@@ -46,7 +47,7 @@ builder.Services.AddSingleton<QuizHistoryService>();
 builder.Services.AddSingleton<QuizService>();
 builder.Services.AddSingleton<RegisterService>();
 builder.Services.AddSingleton<SubjectService>();
-
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,7 +56,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+});
 app.UseAuthorization();
 
 app.MapControllers();

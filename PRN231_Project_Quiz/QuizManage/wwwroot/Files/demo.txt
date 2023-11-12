@@ -1,0 +1,204 @@
+Which is NOT an example belong to the Action Enablers, a type of business rule?
+A. If the expiration date for a chemical container has been reached, then notify the person who currently possesses the container.
+B. Every order has a shipping charge.
+C. On the last day of a calendar quarter, generate the mandated ABC and XYZ reports on chemical handling and for that quarter.
+D. If the chemical stockroom has containers of a requested chemical in stock, then offer existing containers to the requester.--B--
+Which is the most appropriate way when you want to resolve the disagreement requirement between Individual users?
+A. Favored user class gets preference
+B. Segment with greatest impact on business success gets preference
+C. Product champion or product owner who will decides the requirements Nest 
+D. Business objectives dictate direction--B--
+Which is the correct definition of the term business rule based on the information system perspective?
+A. A business rule is guidance that there is an obligation concerning conduct. action. practice, or procedure within a particular activity or
+B. A business rule is a statement that defines or constrains some aspect of the business. It is intended to assert business structure or to of the business.--B--
+_______ is a set of requirements that has been reviewed and agreed upon and serves as the basis for further development
+A. A system requirements baseline
+B. A requirements document
+C. A requirements baseline
+D. A system requirements document--C--
+What is NOT true about motivations for tracing requirements?
+A. Maintenance , Project tracking, Reengineering, Reuse, Testing
+B. Finding missing requirements, Finding unnecessary requirements, Certification and compliance, Change impact analysis
+C. Managing Project--C--
+Conduct focus groups and Identify user requirements activities should be done in __________ stage
+A. Validation
+B. Elicitation
+C. Specification
+D. Analysis--B--
+When to use notation TBD (to be determined) in software requirements specification?
+A. When you numbering requirements
+B. When you labeling requirements
+C. When you organizing requirements
+D. When you dealing with incompleteness requirements--D--
+Which is the CORRECT statements describe about User Requirements?
+A. User requirements specify the behaviors the product will exhibit under specific conditions. They describe what thedevelopers must implement to enable users to accomplish their tasks(user requirements), thereby satisfying the business requirements.
+B. User requirements describe goals or tasks the users must be able to perform with the product that will provide someone. The domain of user requirements also includes descriptions of product attributes or characteristics that a important to user satisfaction.
+C. User requirements describe why the organization is implementing the system, the business benefits the organi hopes to achieve. The focus is on the business objectives of the organization or the customer who requests the system,
+D. User requirements describes as fully as necessary the expected behavior of the software system.--B--
+On projects using agile development methods, the traditional project role Business Analyst will likely be a________
+A. The team
+B. Scrum master
+C. The tester
+D. Product owner--A--
+Which of the following is the CORRECT definition of the term Business Requirement?
+A. A policy, guideline, standard, or regulation that defines or constrains some aspect of the business. Not a software requirement in itself, but the origin of several types of software requirements.
+B. A description of a connection between a software system and a user, another software system, or a hardware device.
+C. A high-level business objective of the organization that builds a product or of a customer who procures it.
+D. A restriction that is imposed on the choices available to the developer for the design and construction of a product.--C--
+Which statement CORRECT describe the term user story?
+A. A description of a set of logically related possible interactions between an actor and a system that results in an outcome that provides value to the actor. Can encompass multiple scenarios.
+B. A format to capture user requirements on agile projects in the form of one or two sentences that articulate a user or describe a unit of desired functionality, as well as stating the benefit of the functionality to the user.
+C. A customer who will interact with a system either directly or indirectly
+D. A statement that describes the strategic concept or the ultimate purpose and form, of a new system.--B--
+The following terms can be used exchangeable. Which is the industry-standard term?
+A. business requirements document (BRD)
+B. requirements document
+C. software requirements specification
+D. system specification
+E. functional specification
+F. product specification--C--
+What is not included in Requirement Effort?
+A. Holding workshops and interviews, analyzing documents, and performing other elicitation activities
+B. Creating and evaluating prototypes intended to assist with requirements development
+C. Reviewing requirements and performing other validation activities
+D. Writing requirements specifications, creating analysis models, and prioritizing requirements
+E. Planning requirements-related activities for the project
+F. Writing the software sources--F--
+__________identifies external events that could trigger behavior in the system. It depicts the scope boundary for the by naming possible business events triggered by users, time-triggered (temporal) events, or signal events received external components, such as hardware devices
+A. A feature tree
+B. A Ecosystem map
+C. A Sequence Diagram
+D. An event list--D--
+Which is NOT an example belong to the constraint, a type of business rule?
+A. Industry standards
+B. Books taller than 16 inches are shelved in the library's Oversize section.
+C. Government regulations
+D. Organizational policies--B--
+Requirements are missed during elicitation that does not relate the software projects shouldn't be finished on time.
+A. True
+B. False--B--
+Requirements bill of responsibilities for software customers are, EXCEPT:
+A. Respect a developer's assessment of the cost and feasibility of requirements
+B. Make timely decisions about requirements when asked.
+C. Educate BAs and developers about business
+D. Describe characteristics that will make the product easy to use.--D--
+Requirements bill of rights for software customers are, EXCEPT:
+A. Be specific and precise when providing input about requirements.
+B. Hear ideas and alternatives for your requirements and for their solution
+C. Describe characteristics that will make the product easy to use.
+D. Receive a system that meets your functional needs and quality expectations.--A--
+_________is a restriction that is imposed on the choices available to the developer for the design and construction of a product.
+A. Nonfunctional requirement
+B. Quality attribute
+C. System requirement
+D. Feature
+E. Constraint--E--
+Which is NOT a common way to represent software requirement?
+A. Formal specifications that define requirements by using mathematically precise specifcation languages.
+B. Well-structured and carefully written natural language.
+C. Visual models that illustrate transformational processes, system states and changes between them, data relation logic flows, and the like.
+D. The language you "invented" and write what you like--D--
+Which case you should write software requirement specification more detail is better?
+A. Precedents are available, as when a previous application is being replaced.
+B. A package solution will be used.
+C. Accurate estimates are needed.
+D. Customers are extensively involved.--C--
+______is a high-level business objective of the organization that builds a product or of a customer who procures it
+A. Business requirement
+B. Business rule
+C. Constraint
+D. Functional requirement
+E. System requirement--A--
+Which is NOT a basic skill of a Business Analyst?
+A. Communication skills
+B. Interviewing and questioning skills
+C. Document requirements
+D. Analytical skills
+E Listening skills
+F. Modeling skills--C--
+Which is NOT a basic task of a Business Analyst?
+A. Identify project stakeholders and user classes
+B. Elicit requirements
+C. Document requirements
+D. Define business requirements
+E. Thinking on your feet
+F. Plan the requirements approach--E--
+_________ is a goal or task that specific classes of users must be able to perform with a system, or a desired product attribute.
+A. Constraint
+B. User requirement
+C. System requirement
+D. Quality attribute
+E. Business rule--B--
+(Choose 1 answer)According to Karl Wiegers and Joy Beatty in the book Software Requirements, third edition, which is NOT a basic distinct levels of Software Requirement
+A. System requirement
+B. Functional Requirements
+C. User Requirements
+D. Business Requirements--A--
+Which the most appropriate representation techniques when you are trying to show. analyze. or discover User task descriptions?
+A. Detailed screen layouts and high-fidelity prototypes
+B. User stories, scenarios, and use case specifications
+C. The entity-relationship diagram
+D. Statetrensition diagrams and state tables--C--
+Which statement CORRECT describe the term use case?
+A. A format to capture user requirements on agile projects in the form of one or two sentences that articulate a user need or describe a unit of desired functionality. as well as stating the benefit of the functionality to the user.
+B. A description of a set of logically related possible interactions between an actor and a system that results in an outcome that provides value to the actor. Can encompass multiple scenarios.
+C. A statement that describes the strategic concept or the ultimate purpose and form of a new system--B--
+Which is NOT a good reason to set a use case at high priority to implement?
+A. It describes part of a core business process that the system enables.
+B. A favored user class requested it.
+C. Other system functions depend on its presence.
+D. That use case won't be implemented for months
+E. Many users will use it frequently.
+F. It's required for regulatory compliance.--D--
+Define vision and scope and Select product champions activities should be done in________ stage
+A. Elicitation
+B. Specification
+C. Analysis
+D. Validation--A--
+Requirements bill of rights for software customers are. EXCEPT:
+A. Expect BAs to record requirements in an appropriate form.
+B. Dedicate the time that it takes to provide and clanfy requirements.
+C. Expect BAs to speak your language
+D. Receive explanations of requirements practices and deliverables.--B--
+Which is the most appropriate way when you want to resolve the disagreement requirement between Users and user manage.
+A. Marketing gets preference
+B. Customers get preference. but tn alignment with business objectives
+C. Product owner or product champion for the user class decides
+D. Business objectives dictate direction--C--
+According to Kar Wiegers and Joy Beatty in Software Requirements. third edition, which is the CORRECT statement describe the production champion term?
+A. Product champions are all members of the user community to provide the requirements.
+B. Product champions is a description of a hypothetical, generic person who serves as a stand-in for a group of users having similar charactenstics and needs.
+C. Product champions are key members of the user community to provide the requirements.--C--
+Which is the most appropriate way when you want to resolve the disagreement requirement between Development and customers?
+A. Marketing gets preference
+B. Customers get preference. but in alignment with business objectives
+C. Product owner or product champion for the user class decides
+D. Business objectives dictate direction--B--
+Which is NOT belong to prepare for elicitation activity when you do requirements elicitation on your project?
+A. Document open issues
+B. Prepare questions and straw man models
+C. Prepare resource
+D. Decide on elicitation scope and agenda--A--
+Impact analysis procedure and template are not necessary for change impact analysis
+A. False
+B. True--A--
+Which of the following is the CORRECT definition of the term Nonfunctional Requirement?
+A. A description of a behavior that a system will exhibit under specific conditions.
+B. A kind of nonfunctional requirement that describes a service or performance characteristic of a product.
+C. A description of a property or characteristic that a system must exhibit or a constraint that it must respect.
+D One or more logically related system capabilities that provide value to a user and are described by a set of functional requirements--C--
+Which is the CORRECT statements that describe about business opportunities section in the template of Vision and scope document.
+A. The business opportunities describe the primary benefits that the new system will provide to its sponsors, buyesrs, and users.
+B. The business opportunities summarize the important business benefits the product will provide in a quantitative and measurable way.
+C. The business opportunities describe the business opportunity that exists and the market In which the product will be competing.
+D. The business opportunities summarize the rationale and context for the new product or for changes to be made to an existing one to the decision to build this product.--C--
+Which analysis model you should use when the customers present their requirements using Verb?
+A Use cases (use case diagram)
+B. Entities or their attributes (ERD)
+C. Actors(use case diagram)
+D. Objects with states(STD)--A--
+Model the requirements and allocate requirements to subsystems activities should be done in _____ stage
+A. Specification
+B. Elicitation
+C. Testing
+D. Analysis--D--

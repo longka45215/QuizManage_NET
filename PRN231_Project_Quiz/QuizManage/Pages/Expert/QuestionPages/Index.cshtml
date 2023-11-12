@@ -1,0 +1,72 @@
+﻿@page
+@using DTO.DTOs;
+@model QuizManage.Pages.Expert.QuestionPages.IndexModel
+@{
+}
+<div class="container-fluid">
+    <a asp-page="/Expert/QuestionPages/Export" asp-route-id="@Model.Subject.SubjectId" class="btn btn-primary float-right">Export</a>
+    <div class="row">
+        <div class="col-md-4">
+            <div style="border-radius: 8px; background-color: #4275FC; color: white">
+                <p style="text-transform: uppercase; margin-bottom: 10px;">Sample File for User to Import Question:</p>
+                <a style="color: orange; font-weight: bold" href="Files/demo.txt" download>Download</a>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <form asp-page="/Expert/QuestionPages/Import" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="hidden" name="subjectID" value="@Model.Subject.SubjectId">
+                <input style="padding: 10px 20px; border: none; border-radius: 8px; background-color: #4275FC; color: white"
+                       type="submit" value="Upload">
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top:10px;" >
+        <div id="content1"></div>
+        <div class="row" id="question">
+            @for (int i = 0; i < Model.Question.Count; i++)
+            {
+                <div class="row" style="border: 1px solid black;">
+               @{ var content = Model.Question[i].Content.Split("/");}
+                
+                <div class="col-md-12">
+                    <h4>THUẬT NGỮ</h4>
+                    @foreach (var str in content)
+                    {
+                        <p>@str</p><br>
+                    }
+                </div>
+                <div class="row" style="margin-top:10px">
+                    @foreach (var answer in Model.Question[i].Answers)
+                    {
+
+                        <div class="col-md-5" style="margin-right:10px; margin-bottom:10px">
+                            @if (answer.IsAnswer.Value)
+                            {
+                                
+                                <p style="color:red;" >@answer.Content</p>
+                            }
+                            else
+                            {
+                                <p>@answer.Content</p>
+                            }
+
+                        </div>
+                    }
+                </div>
+                    <div class="col-md-12" style="text-align: right;">
+                        <a asp-page="/Expert/QuestionPages/Update" asp-route-id="@Model.Question[i].QuestionId" class="btn btn-primary">Update</a>
+                        <a asp-page="/Expert/QuestionPages/Delete" asp-route-id="@Model.Question[i].QuestionId" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            }
+            
+
+        </div>
+
+
+        <div id="content">
+        </div>
+
+    </div>
+</div>

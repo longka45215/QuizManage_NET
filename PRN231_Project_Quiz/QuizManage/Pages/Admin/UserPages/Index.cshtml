@@ -1,0 +1,173 @@
+﻿@page
+@model QuizManage.Pages.Admin.UserPages.IndexModel
+@{
+}
+<div id="UserTableContainer" class="container-fluid">
+    <h2>User Manager</h2>
+</div>
+<script type="text/javascript">
+    
+
+    $(document).ready(function () {
+        ShowAllUser();
+    });
+    function ShowAllUser() {
+
+       
+        // Lấy dữ liệu từ API
+        $.ajax({
+            url: "http://localhost:5298/odata/Role?$skip=1",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                // Xử lý dữ liệu thành công
+                var roles = response.value;
+                console.log(roles);
+                // Lấy dữ liệu khóa học từ API
+                $.ajax({
+                    url: "http://localhost:5298/odata/User?$filter=RoleId ne 0",
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        // Xử lý dữ liệu thành công
+                        var users = response.value;
+                        console.log(users);
+                        // Tạo bảng để hiển thị dữ liệu
+                        var table = $("<table>").addClass("table");
+                        var headers = $("<tr>").append(
+                            $("<th>").text("UserName"),
+                            $("<th>").text("FullName"),
+                            $("<th>").text("Email"),
+                            $("<th>").text("Role"),
+                            $("<th>").text("Status")
+                        );
+                        table.append(headers);
+                        
+                        for (var i = 0; i < users.length; i++) {
+                            (function () {
+                                var user = users[i];
+                                var roleId = user.RoleId;
+                                let id = user.UserId;
+
+                                var rolesSelect = $("<select>").addClass(user.UserId);
+                                for (var j = 0; j < roles.length; j++) {
+                                    var role = roles[j];
+                                    rolesSelect.append(
+                                        $("<option>")
+                                            .val(role.RoleId)
+                                            .text(role.RoleName1)
+                                    );
+                                }
+                                rolesSelect.val(roleId);
+
+                                var row = $("<tr>").append(
+                                    $("<td>").append(
+                                        $("<p>")
+                                            .text(user.UserName)
+                                    ),
+                                    $("<td>").append(
+                                        $("<p>")
+                                            .text(user.FullName)
+                                    ),
+                                    $("<td>").append(
+                                        $("<p>")
+                                            .text(user.Email)
+                                    ),
+                                    $("<td>").append(rolesSelect).on("change", function () {
+                                        var selectedValue = parseInt(rolesSelect.val());
+                                        var newUser = {
+                                            "userId": user.UserId,
+                                            "userName": user.UserName,
+                                            "fullName": user.FullName,
+                                            "email": user.Email,
+                                            "avatar": user.Avatar,
+                                            "description": user.Description,
+                                            "roleId": selectedValue,
+                                            "status": user.Status
+                                        };
+
+                                        $.ajax({
+                                            url: "http://localhost:5298/odata/User/" + id,
+                                            type: "PUT",
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            data: JSON.stringify(newUser),
+                                            success: function (response) {
+                                                // Xử lý phản hồi từ máy chủ
+                                                ShowAllUser();
+                                            },
+                                            error: function (xhr, status, error) {
+                                                // Xử lý lỗi nếu có
+                                                ShowAllUser();
+                                            }
+                                        });
+                                    }),
+                                    $("<td>").append(
+                                        $("<button>")
+                                            .text(user.Status ? "Active" : "Deactive")
+                                            .addClass(user.Status ? "btn btn-success" : "btn btn-danger")
+                                            .click(ChangeStatusUser(user))
+                                    )
+                                );
+                                table.append(row);
+                            })();
+                        }
+
+                        $("#UserTableContainer").empty().append(table);
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi
+                        console.log(xhr.responseText);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    
+    function ChangeRoleUser(user, selectedValue) {
+        return function () {
+           
+
+            
+        }
+    }
+
+    function ChangeStatusUser(user) {
+        
+        return function () {
+            var newUser = {
+                "userId": user.UserId,
+                "userName": user.UserName,
+                "fullName": user.FullName,
+                "email": user.Email,
+                "avatar": user.Avatar,
+                "description": user.Description,
+                "roleId": user.RoleId,
+                "status": !user.Status
+            }
+            $.ajax({
+                url: "http://localhost:5298/odata/User/" + user.UserId,
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(newUser),
+                success: function (response) {
+                    // Xử lý phản hồi từ máy chủ
+                    
+                    
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi nếu có
+                    ShowAllUser();
+                }
+            });
+            
+        }
+    }
+</script>

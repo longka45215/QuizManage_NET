@@ -1,0 +1,77 @@
+﻿@page
+@using DTO.DTOs;
+@model QuizManage.Pages.All.CoursePages.DetailsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container-fluid">
+
+
+    @if (Model.Subjects != null && Model.Subjects.Count != 0)
+    {
+        <div id="MainCourse">
+            <h2>Tất cả Môn Học</h2>
+            <h3>@Model.Course.CourseName</h3>
+
+            <div style="margin-top: 10px;margin-bottom:10px;">
+                <button id="enroll" style="background-color: green; border: none; padding: 10px 20px; color: darkblue;font-size: medium; font-weight: 600;
+                               border-radius: 8px;cursor: pointer;">
+                    ENROLL
+                </button>
+            </div>
+            <div style="margin-top: 10px;margin-bottom:10px;">
+                <button disabled  style="background-color: greenyellow; border: none; padding: 10px 20px; color: darkblue;font-size: medium; font-weight: 600;
+                               border-radius: 8px;">
+                    ENROLLED
+                </button>
+            </div>
+            <div class="row">
+                @foreach (SubjectDTO item in Model.Subjects)
+                {
+                    <div class="card col-md-4" style="width: 18rem; margin-top:10px">
+                        <a style="text-decoration: none; color: black" href="#">
+                            <img class="card-img-top" src="~/Img/courseImg.png" height="100%" width="100%" alt="@item.SubjectName">
+                        </a>
+                        <div class="card-body">
+                            <a href="#"><h5 class="card-title">@item.SubjectName</h5></a>
+                            <p class="card-text">@item.Description</p>
+                            <a href="/All/SubjectPages/Details?id=@item.SubjectId" class="btn btn-primary">Learn</a>
+                            <a href="#" class="btn btn-primary">Take Quiz</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center"><img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png" alt="alt" width="250%" height="200px" /></div>
+        <div style="text-align: center; color: rgba(0,0,0,.54)">Empty</div>
+
+    }
+
+</div>
+<script>
+    $("#enroll").on("click", function () {
+        var enrolldata = '{"UserId": "value1", "CourseId": "value2"}';
+        $.ajax({
+            url: "http://localhost:5298/api/Register",
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            data: enrolldata,
+            dataType: "json",
+            success: function (result, status, xhr) {
+                console.log(result)
+                if (xhr.status === 200) {
+
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr)
+            }
+        });
+    });
+</script>
