@@ -1,4 +1,5 @@
-﻿using DTO.DTO_Service;
+﻿using BusinessObject.Models;
+using DTO.DTO_Service;
 using DTO.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace QuizManagementAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ExpertAssignController : ControllerBase
     {
@@ -17,23 +18,41 @@ namespace QuizManagementAPI.Controllers
         }
 
         // GET api/<ExpertAssignController>/5
-        [HttpGet("{userId}/{subjectId}")]
-        public ActionResult<ExpertAssignDTO?> Get(int userId,string subjectId)
+        [HttpGet("{subjectId}")]
+        public ActionResult<ExpertAssignDTO> Get(string subjectId)
         {
             try
             {
-                var exp = service.GetExpertAssign(userId, subjectId);
+                var exp = service.GetExpertAssign().FirstOrDefault(x=>x.SubjectId.Equals(subjectId));
                 if (exp == null)
                 {
                     return NotFound();
                 }
-                return exp;
+                return Ok(exp);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
            
+        }
+        [HttpGet("{UserId}")]
+        public ActionResult<List<ExpertAssignDTO>> GetExpert(int UserId)
+        {
+            try
+            {
+                var exp = service.GetExpertAssign().Where(x => x.UserId==UserId);
+                if (exp == null)
+                {
+                    return NotFound();
+                }
+                return Ok(exp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // POST api/<ExpertAssignController>
@@ -42,6 +61,11 @@ namespace QuizManagementAPI.Controllers
         {
             try
             {
+                var exp = service.GetExpertAssign().FirstOrDefault(x => x.SubjectId.Equals(expertAssign.SubjectId));
+                if (exp != null)
+                {
+                    service.DeleteExpertAssign(exp);
+                }
                 service.SaveExpertAssign(expertAssign);
                 return Ok();
             }
@@ -54,17 +78,20 @@ namespace QuizManagementAPI.Controllers
 
 
         // DELETE api/<ExpertAssignController>/5
-        [HttpDelete("{userId}/{subjectId}")]
-        public IActionResult Delete(int userId, string subjectId)
+        [HttpDelete("{subjectId}")]
+        public IActionResult Delete(string subjectId)
         {
             try
             {
-                var exp = new ExpertAssignDTO
+                var exp = service.GetExpertAssign().FirstOrDefault(x => x.SubjectId.Equals(subjectId));
+                if (exp != null) {
+                    service.DeleteExpertAssign(exp);
+                }
+                else
                 {
-                    UserId = userId,
-                    SubjectId = subjectId
-                };
-                service.DeleteExpertAssign(exp);
+                    return NotFound();
+                }
+                
                 return Ok();
             }
             catch(Exception ex) 

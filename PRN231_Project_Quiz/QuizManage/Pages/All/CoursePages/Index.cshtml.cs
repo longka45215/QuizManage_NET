@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using DTO.DTOs;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using BusinessObject.Models;
-using System.Net.Http.Headers;
-using DTO.DTOs;
 using Newtonsoft.Json.Linq;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text.Json.Nodes;
-using DataAccess.DAO;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 
 namespace QuizManage.Pages.All.CoursePages
 {
+    [AllowAnonymous]
     public class IndexModel : PageModel
     {
         private readonly HttpClient client;
@@ -25,6 +18,7 @@ namespace QuizManage.Pages.All.CoursePages
         private readonly string CourseCategoryApiUrl = "";
         public IList<CourseDTO> Course { get; set; } = default!;
         public IList<CourseCategoryDTO> CourseCategories { get; set; } = default!;
+        public int TotalCourse { get; set; } = default!;
         public IndexModel()
         {
             client = new HttpClient();
@@ -32,6 +26,7 @@ namespace QuizManage.Pages.All.CoursePages
             client.DefaultRequestHeaders.Accept.Add(contentType);
             CourseApiUrl = "http://localhost:5298/odata/Course";
             CourseCategoryApiUrl = "http://localhost:5298/odata/CourseCategory";
+
         }
         private async Task<string> CallApi(string api)
         {
@@ -43,22 +38,28 @@ namespace QuizManage.Pages.All.CoursePages
             var list = JObject.Parse(data)["value"];
             return list.ToObject<T>();
         }
+        
         private async Task<List<CourseCategoryDTO>> GetCourseCategory()
         {
             return DeserializeJson<List<CourseCategoryDTO>>(await CallApi(CourseCategoryApiUrl));
         }
-        private async Task<List<CourseDTO>> GetCourse()
+        private async Task<List<CourseDTO>> GetCoursePaging(int skip)
         {
-            return DeserializeJson<List<CourseDTO>>(await CallApi(CourseApiUrl));
+            string CurApi = CourseApiUrl+ $"?$skip={skip}&$top=6";
+            return DeserializeJson<List<CourseDTO>>(await CallApi(CurApi));
+        }
+        private async Task<int> GetTotalCourse()
+        {
+            return DeserializeJson<List<CourseDTO>>(await CallApi(CourseApiUrl)).Count;
         }
         private async Task<List<CourseDTO>> GetCourseByCategory(int cateid)
         {
             string CurApi = CourseApiUrl + "?$filter=CategoryId eq " + cateid;
             return DeserializeJson<List<CourseDTO>>(await CallApi(CurApi));
         }
-        private async Task<List<CourseDTO>> GetCourseByCondition(string sort,string search)
+        private async Task<List<CourseDTO>> GetCourseByCondition(string sort, string search)
         {
-            
+
             StringBuilder query = new StringBuilder("?$filter=");
             switch (sort)
             {
@@ -78,21 +79,26 @@ namespace QuizManage.Pages.All.CoursePages
             string CurApi = CourseApiUrl + query;
             return DeserializeJson<List<CourseDTO>>(await CallApi(CurApi));
         }
-
-        public async Task OnGetAsync()
+        
+        public async Task OnGetAsync(int? pageNum)
         {
+            if(pageNum == null) {  pageNum = 0; }
+
+            TotalCourse  = await GetTotalCourse();
             CourseCategories = await GetCourseCategory();
-            Course = await GetCourse();
+            Course = await GetCoursePaging((int)pageNum*6);
         }
         public async Task OnGetCourseByCategory(int cateid)
         {
+            
             CourseCategories = await GetCourseCategory();
             Course = await GetCourseByCategory(cateid);
         }
-        public async Task OnPost(string sort,string search)
+        public async Task OnPost(string sort, string search)
         {
+            
             CourseCategories = await GetCourseCategory();
-            Course = await GetCourseByCondition(sort,search);
+            Course = await GetCourseByCondition(sort, search);
         }
 
     }

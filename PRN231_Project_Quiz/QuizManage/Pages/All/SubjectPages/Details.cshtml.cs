@@ -9,9 +9,12 @@ using BusinessObject.Models;
 using DTO.DTOs;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authorization;
+using QuizManage.Helper;
 
 namespace QuizManage.Pages.All.SubjectPages
 {
+    [AllowAnonymous]
     public class DetailsModel : PageModel
     {
 
@@ -43,7 +46,11 @@ namespace QuizManage.Pages.All.SubjectPages
             string CurApi = QuestionApiUrl + $"?$filter=SubjectId eq '{id}'&$expand=Answers";
             return DeserializeJson<List<QuestionDTO>>(await CallApi(CurApi));
         }
-       
+        private async Task<List<QuestionDTO>> GetLimitQuestionBySubjectId(string id)
+        {
+            string CurApi = QuestionApiUrl + $"?$filter=SubjectId eq '{id}'&$expand=Answers&$top=10";
+            return DeserializeJson<List<QuestionDTO>>(await CallApi(CurApi));
+        }
         private async Task<SubjectDTO> GetSubjectBySubjectId(string id)
         {
             string CurApi = SubjectApiUrl + $"?$filter=SubjectId eq '{id}'";
@@ -51,7 +58,16 @@ namespace QuizManage.Pages.All.SubjectPages
         }
         public async Task OnGetAsync(string id)
         {
-            Question = await GetQuestionBySubjectId(id);
+            var user = SessionHelper.GetObjectFromJson<UserDTO>(HttpContext.Session, "User");
+            if (user != null)
+            {
+                Question = await GetQuestionBySubjectId(id);
+            }
+            else
+            {
+                Question = await GetLimitQuestionBySubjectId(id);
+            }
+
             Subject = await GetSubjectBySubjectId(id);
         }
     }

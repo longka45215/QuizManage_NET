@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using DTO.DTOs;
+@using QuizManage.Helper;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Quiz</a>
+                <a class="navbar-brand" asp-area="" asp-page="/All/CoursePages/Index">Quiz</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -26,19 +28,28 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/All/CoursePages/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="">CourseManager</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="">UserManager</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="">Your Library</a>
-                        </li>
+                        @{
+                            var user = SessionHelper.GetObjectFromJson<UserDTO>(Context.Session, "User");
+                        }
+                        @if (user != null)
+                        {
+                            @if (user.RoleId == 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Admin/CoursePages/Index">CourseManager</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Admin/UserPages/Index">UserManager</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/All/Library/Library">Your Library</a>
+                            </li>
+                        }
                     </ul>
-                    <form class="d-flex"  asp-page="/All/CoursePages/Index"  method="post">
+                    <form class="d-flex" asp-page="/All/CoursePages/Index" method="post">
                         <select name="sort" class="form-select me-2" aria-label="Search by">
                             <option value="all">All</option>
                             <option value="cname">Search by Course Name</option>
@@ -47,14 +58,34 @@
                         <input name="search" class="form-control me-2" type="search" placeholder="Search Course" aria-label="Search">
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
+                    @if (user == null)
+                    {
+                        <div>
+                            <a type="button" href="/Login" class="btn btn-primary ">
+                                <i class="ti-user"></i>
+                                Log In
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <a type="button" href="/Login" class="btn btn-danger ">
+                                <i class="ti-user"></i>
+                                Log out
+                            </a>
+                            <a type="button" href="/All/UserPages/Profile" class="btn btn-secondary ">
+                                <i class="ti-user"></i>
+                                Profile
+                            </a>
+                        </div>
+                    }
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        @RenderBody()
     </div>
 
     <footer class="border-top footer text-muted">

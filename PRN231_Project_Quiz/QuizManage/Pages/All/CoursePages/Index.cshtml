@@ -5,7 +5,7 @@
 @{
    
 }
-<div class="cate col-md-3 mb-5" id="CateNav">
+<div class="cate " id="CateNav" style="margin-left:-40px;">
 
     <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -51,10 +51,18 @@
                     }
                 </div>
             </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                @for(int i = 0; i <= Model.TotalCourse / 6; i++)
+                {
+                    <li class="page-item" ><a class="page-link" href="/All/CoursePages/Index?pageNum=@(i)">@(i+1)</a></li>
+                }
+            </ul>
+        </nav>
         }
         else
         {
-            <div style="text-align: center"><img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png" alt="alt" width="250%" height="200px" /></div>
+            <div style="text-align: center"><img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png" alt="alt" width="100%" height="200px" /></div>
             <div style="text-align: center; color: rgba(0,0,0,.54)">Hãy thử sử dụng các từ khóa chung hơn</div>
             <div style="text-align: center">Không tìm thấy kết quả nào</div>
         }

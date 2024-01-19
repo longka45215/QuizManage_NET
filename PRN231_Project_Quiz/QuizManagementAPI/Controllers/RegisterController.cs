@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace QuizManagementAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RegisterController : ControllerBase
     {
@@ -36,6 +36,24 @@ namespace QuizManagementAPI.Controllers
                 return BadRequest(ex.Message);
             }
             
+        }
+        [HttpGet("{UserId}")]
+        public ActionResult<List<RegisterDTO>> GetUser(int UserId)
+        {
+            try
+            {
+                var register = _service.GetRegister().Where(x=>x.UserId==UserId);
+                if (register == null)
+                {
+                    return NotFound();
+                }
+                return Ok(register);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // POST api/<RegisterController>

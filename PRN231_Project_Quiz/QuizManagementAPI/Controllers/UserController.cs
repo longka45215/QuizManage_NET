@@ -2,6 +2,7 @@
 using DTO.DTO_Service;
 using DTO.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using System.Reflection;
@@ -40,6 +41,11 @@ namespace QuizManagementAPI.Controllers
         {
             try
             {
+                var checkUser = _userService.GetUser().FirstOrDefault(x=>x.Email.Equals(user.Email));
+                if(checkUser != null)
+                {
+                    return Conflict("Email exsited!!!");
+                }
                 Type type = typeof(UserDTO);
                 PropertyInfo[] properties = type.GetProperties();
                 UserDTO tmp = new UserDTO();
@@ -76,12 +82,32 @@ namespace QuizManagementAPI.Controllers
                 PropertyInfo[] properties = type.GetProperties();
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.Name != "UserId")
+                    if (property.Name != "UserId"
+                        && property.Name != "Password"&& property.Name != "RoleId")
                     {
                         object value = property.GetValue(user);
                         property.SetValue(tmp, value);
                     }
                 }
+                _userService.UpdateUser(tmp);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }   
+        public ActionResult Patch([FromRoute] int key, [FromBody] Delta<UserDTO> delta)
+        {
+            try
+            {
+                var tmp = _userService.GetUser().FirstOrDefault(x => x.UserId == key);
+                if (tmp == null)
+                {
+                    return NotFound();
+                }
+                delta.Patch(tmp);
                 _userService.UpdateUser(tmp);
                 return Ok();
             }

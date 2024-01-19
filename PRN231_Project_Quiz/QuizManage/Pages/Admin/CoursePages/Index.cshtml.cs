@@ -9,9 +9,11 @@ using BusinessObject.Models;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using DTO.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizManage.Pages.Admin.CoursePages
 {
+    [Authorize(Policy = "AdminOnly")]
     public class IndexModel : PageModel
     {
         private readonly HttpClient client;

@@ -46,6 +46,12 @@ namespace DataAccess.DAO
             {
                 using (var context = new MyDbContext())
                 {
+                    var item = context.Registers
+                        .FirstOrDefault(x=>x.UserId==res.UserId&&x.CourseId.Equals(res.CourseId));
+                    if (item != null)
+                    {
+                        throw new Exception("User is Enrolled");
+                    }
                     string sql = 
                         "INSERT INTO Register ([userID],[courseID]) VALUES ({0}, {1})";
                     context.Database.ExecuteSqlRaw(sql, res.UserId, res.CourseId );

@@ -17,7 +17,7 @@ namespace QuizManagementAPI.Controllers
         {
             this.subjectService = subjectService;
         }
-        [EnableQuery(PageSize = 10)]
+        [EnableQuery]
         public ActionResult<IQueryable<SubjectDTO>> Get()
         {
             try

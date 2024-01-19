@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Models;
 using DTO.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using System.Text;
 
 namespace QuizManage.Pages.Expert.QuestionPages
 {
+    [Authorize(Policy = "ExpertOnly")]
     public class ImportModel : PageModel
     {
         private readonly HttpClient client;
@@ -74,7 +76,7 @@ namespace QuizManage.Pages.Expert.QuestionPages
                 }
                 for (int i = 0; i < QuesAndAnsList.Count - 1; i++)
                 {
-                    var QuesList = QuesAndAnsList[i].Split("\n");
+                    var QuesList = QuesAndAnsList[i].Trim().Split("\r\n");
 
                     await CallPostApi(QuestionApiUrl, JsonConvert.SerializeObject(new QuestionDTO
                     {
@@ -86,7 +88,9 @@ namespace QuizManage.Pages.Expert.QuestionPages
                     for (int j = 1; j < QuesList.Length; j++)
                     {
                         bool check = false;
-                        if (QuesList[j][0].Equals(AnsList[i]))
+                        string answer = QuesList[j].Substring(0,1);
+                        string a = AnsList[i];
+                        if (answer.Equals(a))
                         {
                             check = true;
                         }

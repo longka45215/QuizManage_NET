@@ -36,10 +36,7 @@ namespace DTO.DTO_Service
 
         public void UpdateUser(UserDTO user)
         {
-            var find= userRepository.GetUsers().FirstOrDefault(x=>x.UserId == user.UserId);
-            var newUser = mapper.Map<User>(user);
-            newUser.Password = find.Password;
-            userRepository.UpdateUser(newUser);
+            userRepository.UpdateUser(mapper.Map<User>(user));
         }
     }
 }

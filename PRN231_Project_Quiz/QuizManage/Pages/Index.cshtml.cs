@@ -14,8 +14,9 @@ namespace QuizManage.Pages
 
         public IActionResult OnGet()
         {
-            //return Redirect("/All/CoursePages/Index");
-            return Redirect("/Admin/UserPages/Index");
+            //return Redirect("/All/SubjectPages/TakeQuiz?id=SWT301");
+            return Redirect("/All/CoursePages/Index");
+
         }
     }
 }

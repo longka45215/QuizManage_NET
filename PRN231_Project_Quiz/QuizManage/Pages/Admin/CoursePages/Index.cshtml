@@ -117,6 +117,7 @@
                 },
                 error: function (xhr, status, error) {
                     // Xử lý lỗi
+                    alert(xhr.responseText);
                     console.log(xhr.responseText);
                 }
             }); 
@@ -151,6 +152,7 @@
                         // Tạo bảng để hiển thị dữ liệu
                         var table = $("<table>").addClass("table");
                         var headers = $("<tr>").append(
+                            $("<th>").text("    "),
                             $("<th>").text("Course ID"),
                             $("<th>").text("Course Name"),
                             $("<th>").text("Description"),
@@ -177,6 +179,11 @@
                             categorySelect.val(categoryId);
 
                             var row = $("<tr>").append(
+                                $("<td>").append(
+                                    $("<p>")
+                                        .text(i+1)
+                                        .css("width", "20px")
+                                ),
                                 $("<td>").append(
                                     $("<input>")
                                         .attr("type", "text")
@@ -272,7 +279,7 @@
                 },
                 error: function (xhr, status, error) {
                     // Xử lý lỗi nếu có
-
+                    alert(xhr.responseText);
                 }
             });
         };
@@ -290,7 +297,7 @@
                 },
                 error: function (xhr, status, error) {
                     // Xử lý lỗi nếu có
-
+                    alert(xhr.responseText);
                 }
             });
         };

@@ -1,8 +1,11 @@
 ﻿@page
+@using DTO.DTOs;
+@using QuizManage.Helper;
 @model QuizManage.Pages.All.SubjectPages.DetailsModel
 
 @{
     ViewData["Title"] = "Details";
+    var user = SessionHelper.GetObjectFromJson<UserDTO>(HttpContext.Session, "User");
 }
 <style>
     table,th, tr, td {
@@ -22,6 +25,10 @@
             </tr>
         </thead>
         <tbody>
+            @if (user == null)
+            {
+                <h5 style="color:red;">Login for more Question</h5>
+            }
             @foreach (var item in Model.Question)
             {
                 <tr>

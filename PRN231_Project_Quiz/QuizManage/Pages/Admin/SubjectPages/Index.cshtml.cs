@@ -1,4 +1,5 @@
 using DTO.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json.Linq;
@@ -6,6 +7,7 @@ using System.Net.Http.Headers;
 
 namespace QuizManage.Pages.Admin.SubjectPages
 {
+    [Authorize(Policy = "AdminOnly")]
     public class IndexModel : PageModel
     {
         private readonly HttpClient client;

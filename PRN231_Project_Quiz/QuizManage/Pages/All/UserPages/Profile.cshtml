@@ -1,0 +1,38 @@
+﻿@page
+@using DTO.DTOs;
+@using QuizManage.Helper;
+@model QuizManage.Pages.All.UserPages.ProfileModel
+@{
+    var user = SessionHelper.GetObjectFromJson<UserDTO>(HttpContext.Session, "User");
+}
+@if (user != null)
+{
+    <div class="container mt-5">
+        <h1>User Profile</h1>
+        <div class="form-group">
+            <div class="avatar-container">
+                <img src="~/Img/cus.png" alt="User Avatar" class="avatar">
+            </div>
+            <form method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input readonly value="@user.UserName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Username" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input readonly value="@user.Email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputFullName1">Full Name</label>
+                    <input value="@user.FullName" type="text" class="form-control" id="exampleInputFullName1" placeholder="Full Name" name="fullName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputFullName1">Description</label>
+                    <input value="@user.Description" type="text" class="form-control" id="exampleInputFullName1" placeholder="Description" name="description">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+
+        </div>
+    </div>
+}

@@ -1,5 +1,6 @@
 using BusinessObject.Models;
 using DTO.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json.Linq;
@@ -8,6 +9,7 @@ using System.Text;
 
 namespace QuizManage.Pages.Expert.QuestionPages
 {
+    [Authorize(Policy = "ExpertOnly")]
     public class DeleteModel : PageModel
     {
         private readonly HttpClient client;

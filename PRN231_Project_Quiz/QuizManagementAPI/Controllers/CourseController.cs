@@ -16,7 +16,7 @@ namespace QuizManagementAPI.Controllers
         {
             this.courseService = courseService;
         }
-        [EnableQuery(PageSize = 10)]
+        [EnableQuery]
         public ActionResult<IQueryable<CourseDTO>> Get()
         {
             try
@@ -37,7 +37,7 @@ namespace QuizManagementAPI.Controllers
                 var tmp = courseService.GetCourse(courseDTO.CourseId);
                 if (tmp != null)
                 {
-                    return BadRequest();
+                    return Conflict();
                 }
                 courseService.SaveCourse(courseDTO);
                 return Ok();

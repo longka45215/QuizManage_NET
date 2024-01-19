@@ -1,0 +1,71 @@
+﻿@page
+@using DTO.DTOs;
+@using QuizManage.Helper;
+@model QuizManage.Pages.All.Library.LibraryModel
+@{
+    var user = SessionHelper.GetObjectFromJson<UserDTO>(HttpContext.Session, "User");
+}
+<div class="container-fluid">
+    <h2>Tất cả Môn Học</h2>
+@if (Model.Subjects != null && Model.Subjects.Count != 0)
+{
+    <div id="MainSubject">
+        <div class="row">
+            @foreach (var item in Model.Subjects)
+            {
+                <div class="card col-md-4" style="width: 18rem; margin-top:10px">
+                    <a style="text-decoration: none; color: black" href="#">
+                        <img class="card-img-top" src="~/Img/courseImg.png" height="100%" width="100%" alt="@item.SubjectName">
+                    </a>
+                    <div class="card-body">
+                        <a href="#"><h5 class="card-title">@item.SubjectName</h5></a>
+                        <p class="card-text">@item.Description</p>
+                        <a href="/Expert/QuestionPages/Index?id=@item.SubjectId" class="btn btn-primary">Manage</a>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+    }
+    else
+    {
+        <div style="text-align: center"><img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png" alt="alt" width="100%" height="80%" /></div>
+        <div style="text-align: center">Không tìm thấy kết quả nào</div>
+    }
+    <h2>Tất cả Khóa Học</h2>
+    @if (Model.Course != null && Model.Course.Count != 0)
+    {
+        <div id="MainCourse">
+            <div class="row">
+                @foreach (CourseDTO item in Model.Course)
+                {
+                    <div class="card col-md-4" style="width: 18rem; margin-top:10px">
+                        <a style="text-decoration: none; color: black" href="/All/CoursePages/Details?id=@item.CourseId">
+                            @if (item.Thumbnail == null)
+                            {
+                                <img class="card-img-top" src="~/Img/courseImg.png" height="100%" width="100%" alt="@item.CourseName">
+
+                            }
+                            else
+                            {
+                                <img class="card-img-top" src="@item.Thumbnail" height="100%" width="100%" alt="@item.CourseName">
+                            }
+                        </a>
+                        <div class="card-body">
+                            <a href="#"><h5 class="card-title">@item.CourseName</h5></a>
+                            <p class="card-text">@item.Description</p>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center"><img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png" alt="alt" width="100%" height="200px" /></div>
+        <div style="text-align: center; color: rgba(0,0,0,.54)">Hãy thử sử dụng các từ khóa chung hơn</div>
+        <div style="text-align: center">Không tìm thấy kết quả nào</div>
+    }
+</div>

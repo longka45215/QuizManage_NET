@@ -1,0 +1,51 @@
+﻿@page
+@model QuizManage.Pages.All.SubjectPages.TakeQuizModel
+@{
+}
+<style>
+    .question {
+        display: flex;
+        align-items: center;
+    }
+
+    .question-number {
+        margin-right: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <form method="post">
+        @for (int i = 0; i < Model.Question.Count; i++)
+        {
+            <hr>
+            var content = @Model.Question[i].Content.Split("/");
+            <div class="question-container">
+                <div class="question">
+                    <div class="question-number">@(i + 1).</div>
+                    <div class="question-text">@foreach (var str in content)
+                        {
+                            <p>@str</p>
+
+                            <br>
+                        }</div>
+                </div>
+                <hr>
+                <input type="hidden" asp-for="SelectedAnswers[@i].QuestionId" value="@Model.Question[i].QuestionId"></input>
+                <div class="answers">
+                    @foreach (var item in Model.Question[i].Answers)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="SelectedAnswers[@i].SelectedAnswer" id="@item.AnswerId" value="@item.Content.Substring(0,1)">
+                            <label class="form-check-label" for="@item.AnswerId">
+                                @item.Content
+                            </label>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        }
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
